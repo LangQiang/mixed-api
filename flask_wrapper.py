@@ -5,7 +5,7 @@ import json
 
 class JsonFlask(Flask):
     def make_response(self, rv):
-        if rv is None or isinstance(rv, (list, dict)):
+        if rv is None or isinstance(rv, (list, dict, bool, str, int, float)):
             rv = JsonResponse.success(rv)
 
         if isinstance(rv, JsonResponse):

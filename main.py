@@ -3,14 +3,16 @@ from flask import g
 from db.db_init import *
 from flask_wrapper import JsonFlask
 from json_response import JsonResponse
-from bill.bill import bill
-from sensitive.sensitive import sensitive
-from shop.shop import shop
+from bill.bill_route import bill
+from sensitive.sensitive_route import sensitive
+from shop.shop_route import shop
+from account.account_route import account
 
 app = JsonFlask(__name__)
 app.register_blueprint(bill)
 app.register_blueprint(sensitive)
 app.register_blueprint(shop)
+app.register_blueprint(account)
 
 
 @app.before_request

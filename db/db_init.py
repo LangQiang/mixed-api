@@ -8,6 +8,13 @@ def connect_db():
 
 
 def initdb():
+    connect_db().execute('''CREATE TABLE if not exists User(
+        user_id VARCHAR(20) NOT NULL PRIMARY KEY,
+        account_name VARCHAR(20) UNIQUE,
+        pass_word VARCHAR(20) NOT NULL,
+        nick_name VARCHAR(20) UNIQUE
+        )''')
+
     connect_db().execute('''CREATE TABLE if not exists sensitive(
     api VARCHAR(500) NOT NULL PRIMARY KEY,
     desc VARCHAR(500) NOT NULL
@@ -48,4 +55,3 @@ def dict_factory(cursor, row):
     for idx, col in enumerate(cursor.description):
         d[col[0]] = row[idx]
     return d
-
