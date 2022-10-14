@@ -81,3 +81,8 @@ def login(db: sqlite3.Connection, account_name, pass_word):
     token = generate_token()
     Redis.write(token, json.dumps(user_info), 60 * 60 * 24 * 30)
     return JsonResponse.success({'token': token, 'nick_name': nick_name, 'user_id': user_id})
+
+
+def account_list(db: sqlite3.Connection):
+    cursor = db.execute('SELECT * FROM User')
+    return cursor.fetchall()
