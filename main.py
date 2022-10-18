@@ -30,7 +30,7 @@ def teardown_request(exception):
 
 @app.errorhandler(Exception)
 def error_handler(e):
-    return JsonResponse.error(msg=str(e))
+    return JsonResponse.error(str(Exception(e).args))
 
 
 initdb()

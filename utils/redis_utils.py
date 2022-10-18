@@ -2,7 +2,8 @@ __all__ = ['Redis']
 
 import redis
 
-g_host = "10.0.16.9"  # redis数据库地址
+# g_host = "10.0.16.9"  # redis数据库地址
+g_host = "127.0.0.1"  # redis数据库地址
 g_port = 6379  # redis 端口号
 g_db = 0  # 数据库名
 g_expire = 60  # redis 过期时间60秒
@@ -20,7 +21,7 @@ class Redis:
         return r
 
     @classmethod
-    def write(cls, key, value, expire=None):
+    def write(cls, key, value='', expire=None):
         """
         写入键值对
         """
@@ -40,6 +41,10 @@ class Redis:
         r = cls._get_r()
         value = r.get(key)
         return value.decode('utf-8') if value else value
+
+    @classmethod
+    def exist(cls, key):
+        return cls._get_r().exists(key)
 
     @classmethod
     def hset(cls, name, key, value):
@@ -90,6 +95,16 @@ class Redis:
         """
         r = cls._get_r()
         r.hdel(name, key)
+
+    @classmethod
+    def sadd(cls, name, values):
+        r = cls._get_r()
+        r.sadd(name, values)
+
+    @classmethod
+    def sismember(cls, name, value):
+        r = cls._get_r()
+        r.sismember(name, value)
 
     @classmethod
     def expire(cls, name, expire=None):

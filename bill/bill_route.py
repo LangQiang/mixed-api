@@ -1,11 +1,16 @@
 from flask import g, request, Blueprint
+
+from utils.constant import ERROR
 from .bill_ctrl import *
 from json_response import JsonResponse
+from utils.decorators import decorator_login_check,decorator_check_sign
 
 bill = Blueprint('bill', __name__)
 
 
 @bill.route('/bill/fetch', methods=['GET'])
+@decorator_check_sign
+@decorator_login_check
 def bill_fetch():
     start = request.args.get('start_date')
     end = request.args.get('end_date')

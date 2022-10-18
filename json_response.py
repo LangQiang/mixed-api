@@ -1,3 +1,6 @@
+from utils.constant import ERROR
+
+
 class JsonResponse(object):
 
     def __init__(self, data, code, msg):
@@ -6,12 +9,16 @@ class JsonResponse(object):
         self.msg = msg
 
     @classmethod
-    def success(cls, data='', code=200, msg='success'):
+    def custom(cls, data='', code=-1, msg='error'):
         return cls(data, code, msg)
 
     @classmethod
-    def error(cls, data='', code=-1, msg='error'):
-        return cls(data, code, msg)
+    def success(cls, data='', success: ERROR = ERROR.SUCCESS):
+        return cls(data, success.code, success.msg)
+
+    @classmethod
+    def error(cls, data='', error: ERROR = ERROR.DEFAULT_ERROR):
+        return cls(data, error.code, error.msg)
 
     def to_dict(self):
         return {

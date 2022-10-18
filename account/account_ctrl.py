@@ -1,5 +1,6 @@
 from db.db_init import *
 from json_response import JsonResponse
+from utils.constant import ERROR
 from utils.redis_utils import Redis
 import random
 import uuid
@@ -50,28 +51,28 @@ def register(db: sqlite3.Connection, register_info: dict):
             or len(account_name) == 0 \
             or len(pass_word) == 0 \
             or len(nick_name) == 0:
-        return JsonResponse.error('参数错误', -102)
+        return JsonResponse.error(error=ERROR.ACCOUNT_REGISTER_ERROR_PARAM)
     if multi_account(db, account_name):
-        return JsonResponse.error('账号重复', -103)
+        return JsonResponse.error(error=ERROR.ACCOUNT_REGISTER_ACCOUNT_DUPLICATE)
     if multi_nick_name(db, nick_name):
-        return JsonResponse.error('用户名重复', -100)
+        return JsonResponse.error(error=ERROR.ACCOUNT_REGISTER_NAME_DUPLICATE)
     user_id = generate_user_id(db)
     if user_id == -1:
-        return JsonResponse.error('到达注册上限', -101)
+        return JsonResponse.error(error=ERROR.ACCOUNT_REGISTER_LIMIT)
 
     db.execute(
         'INSERT OR REPLACE INTO User(user_id, account_name, pass_word, nick_name) VALUES (?,?,?,?)',
         (user_id, account_name, pass_word, nick_name))
     db.commit()
 
-    return JsonResponse.success(msg='注册成功')
+    return JsonResponse.success()
 
 
 def login(db: sqlite3.Connection, account_name, pass_word):
     cursor = db.execute('SELECT * FROM User WHERE account_name=? AND pass_word=?', (account_name, pass_word))
     ret = cursor.fetchmany(1)
     if len(ret) == 0:
-        return JsonResponse.error('用户名或密码错误', -201)
+        return JsonResponse.error(error=ERROR.ACCOUNT_LOGIN_ERROR_INPUT)
     user_id = ret[0][0]
     account_name = ret[0][1]
     pass_word = ret[0][2]
