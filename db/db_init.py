@@ -4,7 +4,7 @@ DATABASE = './MixedDB.db'
 
 
 def connect_db():
-    return sqlite3.connect(DATABASE)
+    return sqlite3.connect(DATABASE, check_same_thread=False)
 
 
 def initdb():
@@ -12,7 +12,8 @@ def initdb():
         user_id VARCHAR(20) NOT NULL PRIMARY KEY,
         account_name VARCHAR(20) UNIQUE,
         pass_word VARCHAR(20) NOT NULL,
-        nick_name VARCHAR(20) UNIQUE
+        nick_name VARCHAR(20) UNIQUE,
+        permission VARCHAR(20)
         )''')
 
     connect_db().execute('''CREATE TABLE if not exists sensitive(

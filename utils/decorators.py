@@ -7,9 +7,19 @@ from utils.encrypt import generateMD5Digest
 import time
 
 
+login_check = True
+
+sign_check = True
+
+permission_check = True
+
+
 def decorator_login_check(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
+        if not login_check:
+            return func(*args, *kwargs)
+        
         token = request.headers.get('token')
         if token is None:
             return JsonResponse.error(error=ERROR.ACCOUNT_NOT_LOGIN)
@@ -31,9 +41,13 @@ def check_token(token):
         return False
 
 
-def decorator_check_sign(func):
+def decorator_sign_check(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
+        if not sign_check:
+            return func(*args, *kwargs)
+
+        token = request.headers.get('token', '')
         sign = request.headers.get('sign')
         timestamp = request.headers.get('timestamp')
         nonce = request.headers.get('nonce')
@@ -49,11 +63,22 @@ def decorator_check_sign(func):
         if Redis.exist(nonce):
             return JsonResponse.error(error=ERROR.SIGN_REQUEST_DUPLICATE)
         # 检测sign加密
-        data = timestamp + '#' + nonce
+        data = token + '#' + timestamp + '#' + nonce
         if sign != generateMD5Digest(data):
             return JsonResponse.error(error=ERROR.SIGN_VERIFY_FAILED)
 
-        Redis.write(nonce, expire=5)
+        Redis.write(nonce, expire=30)
+
+        return func(*args, *kwargs)
+
+    return wrapper
+
+
+def decorator_permission_check(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        if not permission_check:
+            return func(*args, *kwargs)
 
         return func(*args, *kwargs)
 

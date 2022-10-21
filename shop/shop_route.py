@@ -1,11 +1,15 @@
 from flask import g, request, Blueprint
 from .shop_ctrl import *
 from json_response import JsonResponse
+from utils.decorators import decorator_login_check, decorator_sign_check
+
 
 shop = Blueprint('shop', __name__)
 
 
 @shop.route('/shop/create', methods=['POST'])
+@decorator_sign_check
+@decorator_login_check
 def shop_create_route():
     name = request.json.get('shop_name')
     img = request.json.get('shop_img')
@@ -19,5 +23,7 @@ def shop_create_route():
 
 
 @shop.route('/shop/list', methods=['GET'])
+@decorator_sign_check
+@decorator_login_check
 def shop_list_route():
     return get_shop_list(g.db)

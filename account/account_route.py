@@ -4,19 +4,6 @@ from .account_ctrl import *
 account = Blueprint('account', __name__)
 
 
-@account.route('/put/<key>/<value>', methods=['GET'])
-def put(key, value):
-    Redis.write(key, value, 10)
-    return JsonResponse.success()
-
-
-@account.route('/get/<key>', methods=['GET'])
-def get(key):
-    value = Redis.read(key)
-    print(value)
-    return JsonResponse.success(json.loads(value))
-
-
 @account.route('/account/register', methods=['POST'])
 def r_register():
     account_name = request.json.get('account_name')

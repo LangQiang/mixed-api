@@ -7,12 +7,14 @@ from bill.bill_route import bill
 from sensitive.sensitive_route import sensitive
 from shop.shop_route import shop
 from account.account_route import account
+from tools.tool_route import tool
 
 app = JsonFlask(__name__)
 app.register_blueprint(bill)
 app.register_blueprint(sensitive)
 app.register_blueprint(shop)
 app.register_blueprint(account)
+app.register_blueprint(tool)
 
 
 @app.before_request
