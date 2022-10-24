@@ -8,6 +8,7 @@ from sensitive.sensitive_route import sensitive
 from shop.shop_route import shop
 from account.account_route import account
 from tools.tool_route import tool
+from utils.scheduler import start_weather_task
 
 app = JsonFlask(__name__)
 app.register_blueprint(bill)
@@ -36,6 +37,8 @@ def error_handler(e):
 
 
 initdb()
+
+start_weather_task()
 
 if __name__ == '__main__':
     app.run()

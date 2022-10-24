@@ -2,3 +2,5 @@ gunicorn
 gevent
 flask
 redis
+apscheduler
+requests

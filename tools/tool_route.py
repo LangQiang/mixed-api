@@ -9,3 +9,10 @@ def holiday_route():
     start = request.args.get('start_date')
     end = request.args.get('end_date')
     return query_holiday_state(g.db, start, end)
+
+
+@tool.route('/tool/weather', methods=['GET'])
+def weather_route():
+    start = request.args.get('start_date')
+    end = request.args.get('end_date')
+    return query_weather(g.db, start, end)

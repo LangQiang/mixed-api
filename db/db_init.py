@@ -8,6 +8,7 @@ def connect_db():
 
 
 def initdb():
+    # 用户表
     connect_db().execute('''CREATE TABLE if not exists User(
         user_id VARCHAR(20) NOT NULL PRIMARY KEY,
         account_name VARCHAR(20) UNIQUE,
@@ -16,11 +17,13 @@ def initdb():
         permission VARCHAR(20)
         )''')
 
+    # 隐私接口 其它服务的 暂时先留着
     connect_db().execute('''CREATE TABLE if not exists sensitive(
     api VARCHAR(500) NOT NULL PRIMARY KEY,
     desc VARCHAR(500) NOT NULL
     )''')
 
+    # 账单支付详情表
     connect_db().execute('''CREATE TABLE if not exists BillRecord(
     bill_date VARCHAR(20),
     bill_type VARCHAR(100),
@@ -29,6 +32,7 @@ def initdb():
     primary key(bill_date, bill_type, bill_shop_id)
     )''')
 
+    # 账单当日概览表
     connect_db().execute('''CREATE TABLE if not exists BillTableTimes(
     bill_date VARCHAR(20),
     bill_table_times VARCHAR(100),
@@ -39,6 +43,7 @@ def initdb():
     primary key(bill_date, bill_shop_id)
     )''')
 
+    # 店铺
     connect_db().execute('''CREATE TABLE if not exists Shop(
         id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
         name VARCHAR(20) UNIQUE,
@@ -48,6 +53,24 @@ def initdb():
         phone VARCHAR(20),
         bill_created_time TimeStamp NOT NULL DEFAULT (DATETIME('now', 'localtime'))
         )''')
+
+    # 天气 买不起服务 免费的自己保存
+    connect_db().execute('''CREATE TABLE if not exists Weather(
+            weather_date VARCHAR(20),
+            weather_city VARCHAR(40),
+            weather_hour VARCHAR(10),
+            weather_temperature INTEGER,
+            weather_temperature_day INTEGER,
+            weather_temperature_night INTEGER,
+            weather_condition VARCHAR(10),
+            weather_win_direction VARCHAR(10),
+            weather_win_speed VARCHAR(10),
+            weather_air INTEGER,
+            weather_humidity VARCHAR(10),
+            weather_created_time TimeStamp NOT NULL DEFAULT (DATETIME('now', 'localtime')),
+            primary key(weather_date, weather_city, weather_hour)
+            )''')
+
     connect_db().commit()
 
 
