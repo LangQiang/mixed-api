@@ -19,7 +19,7 @@ def weather_job():
         temp = ret['tem']
         temp_day = ret['tem_day']
         temp_night = ret['tem_night']
-        condition = ret['wea']
+        condition = ret['wea_img']  # xue、lei、shachen、wu、bingbao、yun、yu、yin、qing
         win_direction = ret['win']
         win_speed = ret['win_speed']
         air = ret['air']
