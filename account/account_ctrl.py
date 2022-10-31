@@ -77,13 +77,23 @@ def login(db: sqlite3.Connection, account_name, pass_word):
     account_name = ret[0][1]
     pass_word = ret[0][2]
     nick_name = ret[0][3]
-    user_info = {'user_id': user_id, 'account_name': account_name, 'pass_word': pass_word, 'nick_name': nick_name}
+    user_avatar = ret[0][4]
+    user_info = {'user_id': user_id, 'account_name': account_name, 'pass_word': pass_word, 'nick_name': nick_name, 'user_avatar': user_avatar}
     print(user_info)
     token = generate_token()
     Redis.write(token, json.dumps(user_info), 60 * 60 * 24 * 30)
-    return JsonResponse.success({'token': token, 'nick_name': nick_name, 'user_id': user_id})
+    return JsonResponse.success({'token': token, 'nick_name': nick_name, 'user_id': user_id, 'user_avatar': user_avatar})
 
 
 def account_list(db: sqlite3.Connection):
     cursor = db.execute('SELECT * FROM User')
     return cursor.fetchall()
+
+
+def account_update(db: sqlite3.Connection, token, user_avatar):
+    userInfo = json.loads(Redis.read(token))
+    db.execute('UPDATE User SET user_avatar=? where user_id=?', (user_avatar, userInfo.get('user_id')))
+    db.commit()
+    userInfo['user_avatar'] = user_avatar
+    Redis.write(token, json.dumps(userInfo), 60 * 60 * 24 * 30)
+    return JsonResponse.success()

@@ -14,6 +14,7 @@ def initdb():
         account_name VARCHAR(20) UNIQUE,
         pass_word VARCHAR(20) NOT NULL,
         nick_name VARCHAR(20) UNIQUE,
+        user_avatar TEXT,
         permission VARCHAR(20)
         )''')
 

@@ -1,5 +1,7 @@
 from flask import Blueprint, request, g
 from .account_ctrl import *
+from utils.decorators import decorator_login_check, decorator_sign_check
+
 
 account = Blueprint('account', __name__)
 
@@ -28,3 +30,12 @@ def r_multi_nick_name(nick_name):
 @account.route('/account/list', methods=['GET'])
 def r_account_list():
     return account_list(g.db)
+
+
+@account.route('/account/update', methods=['POST'])
+@decorator_sign_check
+@decorator_login_check
+def r_account_update():
+    token = request.headers.get('token')
+    user_avatar = request.json.get('user_avatar')
+    return account_update(g.db, token,  user_avatar)
