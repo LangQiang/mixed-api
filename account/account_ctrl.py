@@ -69,15 +69,17 @@ def register(db: sqlite3.Connection, register_info: dict):
 
 
 def login(db: sqlite3.Connection, account_name, pass_word):
+    db.row_factory = dict_factory
     cursor = db.execute('SELECT * FROM User WHERE account_name=? AND pass_word=?', (account_name, pass_word))
-    ret = cursor.fetchmany(1)
+    ret = cursor.fetchone()
     if len(ret) == 0:
         return JsonResponse.error(error=ERROR.ACCOUNT_LOGIN_ERROR_INPUT)
-    user_id = ret[0][0]
-    account_name = ret[0][1]
-    pass_word = ret[0][2]
-    nick_name = ret[0][3]
-    user_avatar = ret[0][4]
+    print(ret)
+    user_id = ret['user_id']
+    account_name = ret['account_name']
+    pass_word = ret['pass_word']
+    nick_name = ret['nick_name']
+    user_avatar = ret['user_avatar']
     user_info = {'user_id': user_id, 'account_name': account_name, 'pass_word': pass_word, 'nick_name': nick_name, 'user_avatar': user_avatar}
     print(user_info)
     token = generate_token()
