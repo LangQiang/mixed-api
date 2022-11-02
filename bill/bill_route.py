@@ -25,19 +25,20 @@ def bill_fetch():
 def bill_insert():
     token = request.headers.get('token')
     shop_id = request.json.get('shop_id')
-    date = request.json.get('date')
+    bill_date = request.json.get('date')
     bill_type_list = request.json.get('type_list')
     table_times = request.json.get('table_times')
+    pay_out = request.json.get('pay_out')
     total = 0.0
     data = []
     for ele in bill_type_list:
         per_amount = float(ele.get('amount'))
-        data.append((date, ele.get('type'), per_amount, shop_id))
+        data.append((bill_date, ele.get('type'), per_amount, shop_id))
         total += per_amount
     print("total:%s" % total)
     print(data)
     opt_by = json.loads(Redis.read(token)).get('nick_name')
-    insertBill(g.db, data, (date, table_times, total, opt_by, shop_id))
+    insertBill(g.db, data, (bill_date, table_times, total, opt_by, shop_id, pay_out))
     return JsonResponse.success()
 
 
@@ -46,8 +47,8 @@ def bill_insert():
 @decorator_login_check
 def bill_delete():
     shop_id = request.json.get('shop_id')
-    date = request.json.get('date')
-    deleteBill(g.db, shop_id, date)
+    bill_date = request.json.get('date')
+    deleteBill(g.db, shop_id, bill_date)
     return JsonResponse.success()
 
 
