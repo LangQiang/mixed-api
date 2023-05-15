@@ -73,6 +73,33 @@ def initdb():
             primary key(weather_date, weather_city, weather_hour)
             )''')
 
+    # 采购清单列表
+    connect_db().execute('''CREATE TABLE if not exists ProcureList(
+                procure_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+                procure_name VARCHAR(40),
+                procure_desc VARCHAR(200),
+                procure_notes VARCHAR(200),
+                procure_state INTEGER,
+                procure_created_time TimeStamp NOT NULL DEFAULT (DATETIME('now', 'localtime'))
+                )''')
+
+    # 采购清单详情
+    connect_db().execute('''CREATE TABLE if not exists Equipment (
+                    equipment_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+                    procure_id INTEGER,
+                    equipment_name VARCHAR(40),
+                    equipment_pic CHAR(100),
+                    equipment_desc VARCHAR(200),
+                    equipment_notes VARCHAR(200),
+                    equipment_state INTEGER,
+                    equipment_count INTEGER,
+                    equipment_per_price INTEGER,
+                    equipment_buy_channel VARCHAR(40),
+                    equipment_complete_date VARCHAR(20),
+                    equipment_purchaser VARCHAR(20),
+                    equipment_created_time TimeStamp NOT NULL DEFAULT (DATETIME('now', 'localtime'))
+                    )''')
+
     connect_db().commit()
 
 

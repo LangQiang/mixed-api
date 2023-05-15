@@ -9,6 +9,7 @@ from shop.shop_route import shop
 from account.account_route import account
 from tools.tool_route import tool
 from utils.scheduler import start_weather_task
+from procure.procure_route import procure
 
 app = JsonFlask(__name__)
 app.register_blueprint(bill)
@@ -16,6 +17,7 @@ app.register_blueprint(sensitive)
 app.register_blueprint(shop)
 app.register_blueprint(account)
 app.register_blueprint(tool)
+app.register_blueprint(procure)
 
 
 @app.before_request
@@ -34,6 +36,11 @@ def teardown_request(exception):
 @app.errorhandler(Exception)
 def error_handler(e):
     return JsonResponse.error(str(Exception(e).args))
+
+
+@app.route('/')
+def index():
+    return "welcome!!!!"
 
 
 initdb()
