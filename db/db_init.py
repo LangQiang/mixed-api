@@ -7,6 +7,14 @@ def connect_db():
     return sqlite3.connect(DATABASE, check_same_thread=False)
 
 
+# bill_pay_out_materials TEXT,
+# bill_pay_out_Labor TEXT,
+# bill_pay_out_water TEXT,
+# bill_pay_out_electricity TEXT,
+# bill_pay_out_gas TEXT,
+# bill_pay_out_dividends TEXT,
+# bill_pay_out_other TEXT,
+
 def initdb():
     # 用户表
     connect_db().execute('''CREATE TABLE if not exists User(
@@ -99,6 +107,17 @@ def initdb():
                     equipment_purchaser VARCHAR(20),
                     equipment_created_time TimeStamp NOT NULL DEFAULT (DATETIME('now', 'localtime'))
                     )''')
+
+    # 资料 合同
+    connect_db().execute('''CREATE TABLE if not exists Asset (
+                        asset_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+                        asset_title VARCHAR(40),
+                        asset_belong VARCHAR(40),
+                        asset_format VARCHAR(20),
+                        asset_url VARCHAR(200),
+                        asset_extra VARCHAR(200),
+                        asset_created_time TimeStamp NOT NULL DEFAULT (DATETIME('now', 'localtime'))
+                        )''')
 
     connect_db().commit()
 

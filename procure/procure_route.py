@@ -7,9 +7,9 @@ procure = Blueprint('procure', __name__)
 
 
 @procure.route('/procure/create', methods=['POST'])
-# @decorator_sign_check
-# @decorator_login_check
-def shop_create_route():
+@decorator_sign_check
+@decorator_login_check
+def procure_create_route():
     name = request.json.get('procure_name')
     desc = request.json.get('procure_desc')
     notes = request.json.get('procure_notes')
@@ -20,15 +20,15 @@ def shop_create_route():
 
 
 @procure.route('/procure/list', methods=['GET'])
-# @decorator_sign_check
-# @decorator_login_check
-def shop_list_route():
+@decorator_sign_check
+@decorator_login_check
+def procure_list_route():
     return get_procure_list(g.db)
 
 
 @procure.route('/equipment/create', methods=['POST'])
-# @decorator_sign_check
-# @decorator_login_check
+@decorator_sign_check
+@decorator_login_check
 def equipment_create_route():
     data = (request.json.get('procure_id'),
             request.json.get('equipment_name'),
@@ -47,8 +47,8 @@ def equipment_create_route():
 
 
 @procure.route('/equipment/update', methods=['POST'])
-# @decorator_sign_check
-# @decorator_login_check
+@decorator_sign_check
+@decorator_login_check
 def equipment_update_route():
     updateMap = dict()
 
@@ -97,7 +97,7 @@ def equipment_update_route():
 
 
 @procure.route('/equipment/list/<procure_id>', methods=['GET'])
-# @decorator_sign_check
-# @decorator_login_check
+@decorator_sign_check
+@decorator_login_check
 def equipment_list_route(procure_id):
     return get_equipment_list(g.db, procure_id)
