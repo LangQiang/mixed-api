@@ -119,6 +119,15 @@ def initdb():
                         asset_created_time TimeStamp NOT NULL DEFAULT (DATETIME('now', 'localtime'))
                         )''')
 
+    # 升级
+    connect_db().execute('''CREATE TABLE if not exists Upgrade (
+                            upgrade_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+                            upgrade_version VARCHAR(40),
+                            upgrade_url VARCHAR(200),
+                            upgrade_channel VARCHAR(40),
+                            upgrade_created_time TimeStamp NOT NULL DEFAULT (DATETIME('now', 'localtime'))
+                            )''')
+
     connect_db().commit()
 
 
