@@ -12,7 +12,7 @@ def create_upgrade(db: sqlite3.Connection, info):
 
 def check_upgrade(db: sqlite3.Connection):
     db.row_factory = dict_factory
-    cursor = db.execute('SELECT * FROM Upgrade order by upgrade_version, upgrade_created_time DESC limit 1')
+    cursor = db.execute('SELECT * FROM Upgrade order by upgrade_version DESC, upgrade_created_time DESC limit 1')
     ret = cursor.fetchone()
     if len(ret) == 0:
         return JsonResponse.error(error=ERROR.ACCOUNT_LOGIN_ERROR_INPUT)
