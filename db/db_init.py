@@ -128,6 +128,21 @@ def initdb():
                             upgrade_created_time TimeStamp NOT NULL DEFAULT (DATETIME('now', 'localtime'))
                             )''')
 
+    # 皮肤
+    connect_db().execute('''CREATE TABLE if not exists Skin (
+                                skin_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+                                skin_name VARCHAR(40),
+                                skin_desc VARCHAR(40),
+                                skin_cover VARCHAR(40),
+                                skin_version INTEGER,
+                                skin_url VARCHAR(200),
+                                skin_channel VARCHAR(40),
+                                skin_category VARCHAR(40),
+                                skin_tag VARCHAR(40),
+                                skin_type INTEGER,
+                                skin_created_time TimeStamp NOT NULL DEFAULT (DATETIME('now', 'localtime'))
+                                )''')
+
     connect_db().commit()
 
 

@@ -12,6 +12,7 @@ from utils.scheduler import start_weather_task
 from procure.procure_route import procure
 from asset.asset_route import asset
 from appconfig.config_route import config
+from skin.skin_route import skin
 
 app = JsonFlask(__name__)
 app.register_blueprint(bill)
@@ -22,6 +23,7 @@ app.register_blueprint(tool)
 app.register_blueprint(procure)
 app.register_blueprint(asset)
 app.register_blueprint(config)
+app.register_blueprint(skin)
 
 
 @app.before_request
