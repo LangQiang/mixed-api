@@ -3,7 +3,6 @@ from .skin_ctrl import *
 from json_response import JsonResponse
 from utils.decorators import decorator_login_check, decorator_sign_check
 
-
 skin = Blueprint('skin', __name__)
 
 
@@ -27,7 +26,14 @@ def skin_create_route():
 
 
 @skin.route('/skin/list', methods=['GET'])
-@decorator_sign_check
-@decorator_login_check
+# @decorator_sign_check
+# @decorator_login_check
 def skin_list_route():
     return get_skin_list(g.db)
+
+
+@skin.route('/skin/check/name/<skin_name>', methods=['GET'])
+# @decorator_sign_check
+# @decorator_login_check
+def skin_check_name(skin_name):
+    return check_skin_name(g.db, skin_name)

@@ -131,9 +131,10 @@ def initdb():
     # 皮肤
     connect_db().execute('''CREATE TABLE if not exists Skin (
                                 skin_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-                                skin_name VARCHAR(40),
+                                skin_name VARCHAR(40) UNIQUE,
                                 skin_desc VARCHAR(40),
-                                skin_cover VARCHAR(40),
+                                skin_cover VARCHAR(200),
+                                skin_effect VARCHAR(200),
                                 skin_version INTEGER,
                                 skin_url VARCHAR(200),
                                 skin_channel VARCHAR(40),
