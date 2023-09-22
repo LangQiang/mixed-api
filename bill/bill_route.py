@@ -55,3 +55,11 @@ def bill_delete():
 # @decorator_login_check
 def bill_statistics_route():
     return get_bill_statistics(g.db)
+
+
+@bill.route('/bill/total', methods=['GET'])
+# @decorator_sign_check
+# @decorator_login_check
+def bill_total_route():
+    shop_id = request.args.get('bill_shop_id')
+    return get_bill_total(g.db, shop_id)
