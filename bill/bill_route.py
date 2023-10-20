@@ -62,4 +62,5 @@ def bill_statistics_route():
 # @decorator_login_check
 def bill_total_route():
     shop_id = request.args.get('bill_shop_id')
-    return get_bill_total(g.db, shop_id)
+    type_name = request.args.get('type_name')
+    return get_bill_total(g.db, shop_id, type_name)

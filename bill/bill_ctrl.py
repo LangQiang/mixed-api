@@ -111,10 +111,10 @@ def get_bill_statistics(db: sqlite3.Connection):
             'lastMonthTotalTurnover': lastMonthTotalTurnover, 'currentMonthTotalTurnover': currentMonthTotalTurnover}
 
 
-def get_bill_total(db: sqlite3.Connection, shop_id):
+def get_bill_total(db: sqlite3.Connection, shop_id, type_name):
     db.row_factory = dict_factory
     selection = '' if shop_id is None or shop_id == '' else 'where bill_shop_id=' + shop_id
-    cursor = db.execute('select sum(bill_total) as total from BillTableTimes ' + selection)
+    cursor = db.execute('select sum(' + type_name + ') as total from BillTableTimes ' + selection)
 
     # 总共 昨日
     totalTurnover = cursor.fetchone()['total']
