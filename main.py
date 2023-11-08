@@ -13,6 +13,7 @@ from procure.procure_route import procure
 from asset.asset_route import asset
 from appconfig.config_route import config
 from skin.skin_route import skin
+from product.product_route import product
 
 app = JsonFlask(__name__)
 app.register_blueprint(bill)
@@ -24,6 +25,7 @@ app.register_blueprint(procure)
 app.register_blueprint(asset)
 app.register_blueprint(config)
 app.register_blueprint(skin)
+app.register_blueprint(product)
 
 
 @app.before_request

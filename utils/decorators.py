@@ -5,6 +5,8 @@ from utils.constant import ERROR
 from utils.redis_utils import Redis
 from utils.encrypt import generateMD5Digest
 import time
+import json
+
 
 
 login_check = True
@@ -35,6 +37,10 @@ def check_token(token):
     if token is None:
         return False
     cache_info = Redis.read(token)
+    userInfo = json.loads(cache_info)
+    userId = userInfo['user_id']
+    if userId != "52484086" and userId != "94832761" and userId != "57252979":
+        return False
     if cache_info:
         return True
     else:

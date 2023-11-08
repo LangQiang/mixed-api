@@ -144,6 +144,42 @@ def initdb():
                                 skin_created_time TimeStamp NOT NULL DEFAULT (DATETIME('now', 'localtime'))
                                 )''')
 
+    # 原材料信息
+    connect_db().execute('''CREATE TABLE if not exists MaterialInfo (
+                                material_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+                                material_name VARCHAR(40) UNIQUE,
+                                material_price_per VARCHAR(40),
+                                material_quantity_unit VARCHAR(40),
+                                material_channel VARCHAR(40),
+                                material_channel_contact_info VARCHAR(40),
+                                material_type VARCHAR(40),
+                                material_belong VARCHAR(40),
+                                material_notes TEXT,
+                                material_created_time TimeStamp NOT NULL DEFAULT (DATETIME('now', 'localtime'))
+                                )''')
+
+    # 产品信息表 classify [xx-xaa-ss]表示三级
+    connect_db().execute('''CREATE TABLE if not exists ProductInfo (
+                                    product_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+                                    product_name VARCHAR(40) UNIQUE,
+                                    product_pic TEXT,
+                                    product_type VARCHAR(40),
+                                    product_classify VARCHAR(40),
+                                    product_selling_price VARCHAR(40),
+                                    product_notes TEXT,
+                                    material_created_time TimeStamp NOT NULL DEFAULT (DATETIME('now', 'localtime'))
+                                    )''')
+
+    # 产品原材料构成用量表
+    connect_db().execute('''CREATE TABLE if not exists ProductComponent (
+                                        product_id INTEGER,
+                                        product_component_id INTEGER,
+                                        product_component_name VARCHAR(40),
+                                        product_component_amount INTEGER,
+                                        product_component_created_time TimeStamp NOT NULL DEFAULT (DATETIME('now', 'localtime')),
+                                        primary key(product_id, product_component_id)
+                                        )''')
+
     connect_db().commit()
 
 

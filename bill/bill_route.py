@@ -51,15 +51,15 @@ def bill_delete():
 
 
 @bill.route('/bill/statistics', methods=['GET'])
-# @decorator_sign_check
-# @decorator_login_check
+@decorator_sign_check
+@decorator_login_check
 def bill_statistics_route():
     return get_bill_statistics(g.db)
 
 
 @bill.route('/bill/total', methods=['GET'])
-# @decorator_sign_check
-# @decorator_login_check
+@decorator_sign_check
+@decorator_login_check
 def bill_total_route():
     shop_id = request.args.get('bill_shop_id')
     type_name = request.args.get('type_name')
