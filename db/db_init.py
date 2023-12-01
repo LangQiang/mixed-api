@@ -49,6 +49,7 @@ def initdb():
     bill_opt_by VARCHAR(100),
     bill_shop_id INTEGER,
     bill_pay_out TEXT,
+    bill_bonus INTEGER,
     bill_created_time TimeStamp NOT NULL DEFAULT (DATETIME('now', 'localtime')),
     primary key(bill_date, bill_shop_id)
     )''')

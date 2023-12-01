@@ -33,7 +33,7 @@ def insertBill(db: sqlite3.Connection, data, table_times_data):
         print(per_data)
 
     db.execute(
-        'INSERT OR REPLACE INTO BillTableTimes(bill_date, bill_table_times, bill_total, bill_opt_by,bill_shop_id, bill_pay_out) VALUES (?,?,?,?,?,?)',
+        'INSERT OR REPLACE INTO BillTableTimes(bill_date, bill_table_times, bill_total, bill_opt_by,bill_shop_id, bill_pay_out, bill_bonus) VALUES (?,?,?,?,?,?,?)',
         table_times_data)
 
     db.commit()

@@ -30,13 +30,14 @@ def bill_insert():
     table_times = request.json.get('table_times')
     pay_out = request.json.get('pay_out')
     total = request.json.get('total')
+    bonus = request.json.get('bonus')
     data = []
     for ele in bill_type_list:
         per_amount = float(ele.get('amount'))
         data.append((bill_date, ele.get('type'), per_amount, shop_id))
     print(data)
     opt_by = json.loads(Redis.read(token)).get('nick_name')
-    insertBill(g.db, data, (bill_date, table_times, total, opt_by, shop_id, pay_out))
+    insertBill(g.db, data, (bill_date, table_times, total, opt_by, shop_id, pay_out, bonus))
     return JsonResponse.success()
 
 
