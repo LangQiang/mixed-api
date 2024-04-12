@@ -5,7 +5,7 @@ from utils.constant import ERROR
 
 def create_upgrade(db: sqlite3.Connection, info):
     db.execute(
-        'INSERT OR IGNORE INTO Upgrade(upgrade_version, upgrade_url, upgrade_channel) VALUES (?,?,?)',
+        'INSERT OR IGNORE INTO Upgrade(upgrade_version, upgrade_url, upgrade_channel, upgrade_tip) VALUES (?,?,?,?)',
         info)
     db.commit()
 
@@ -20,5 +20,6 @@ def check_upgrade(db: sqlite3.Connection):
     upgrade_version = ret['upgrade_version']
     upgrade_url = ret['upgrade_url']
     upgrade_channel = ret['upgrade_channel']
-    upgrade_info = {'upgrade_version': upgrade_version, 'upgrade_url': upgrade_url, 'upgrade_channel': upgrade_channel}
+    upgrade_tip = ret['upgrade_tip']
+    upgrade_info = {'upgrade_version': upgrade_version, 'upgrade_url': upgrade_url, 'upgrade_channel': upgrade_channel, 'upgrade_tip': upgrade_tip}
     return upgrade_info

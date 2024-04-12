@@ -126,6 +126,7 @@ def initdb():
                             upgrade_version VARCHAR(40),
                             upgrade_url VARCHAR(200),
                             upgrade_channel VARCHAR(40),
+                            upgrade_tip TEXT,
                             upgrade_created_time TimeStamp NOT NULL DEFAULT (DATETIME('now', 'localtime'))
                             )''')
 
