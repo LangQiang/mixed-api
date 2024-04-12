@@ -1,5 +1,6 @@
 from db.db_init import *
 from datetime import date, datetime, timedelta
+from urllib.parse import unquote
 
 
 # YY-mm-dd  range-rule:[]
@@ -111,11 +112,12 @@ def get_bill_statistics(db: sqlite3.Connection):
             'lastMonthTotalTurnover': lastMonthTotalTurnover, 'currentMonthTotalTurnover': currentMonthTotalTurnover}
 
 
-def get_bill_total(db: sqlite3.Connection, shop_id, type_name):
+def get_bill_total(db: sqlite3.Connection, shop_id, type_name, sub_type_name):
+    tableName = 'BillTableTimes' if type_name is not None else 'BillRecord'
+    sumParam = type_name if type_name is not None else 'bill_amount'
     db.row_factory = dict_factory
-    selection = '' if shop_id is None or shop_id == '' else 'where bill_shop_id=' + shop_id
-    cursor = db.execute('select sum(' + type_name + ') as total from BillTableTimes ' + selection)
-
-    # 总共 昨日
-    totalTurnover = cursor.fetchone()['total']
-    return {'total': totalTurnover if totalTurnover is not None else 0}
+    selection = '' if shop_id is None or shop_id == '' else ('where bill_shop_id=' + shop_id + ((" and bill_type='" + unquote(sub_type_name) + "'") if sub_type_name is not None else ''))
+    print('select sum(' + sumParam + ') as total from ' + tableName + ' ' + selection)
+    cursor = db.execute('select sum(' + sumParam + ') as total from ' + tableName + ' ' + selection)
+    total = cursor.fetchone()['total']
+    return {'total': total if total is not None else 0}
