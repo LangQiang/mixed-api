@@ -28,6 +28,8 @@ def r_multi_nick_name(nick_name):
 
 
 @account.route('/account/list', methods=['GET'])
+@decorator_sign_check
+@decorator_login_check
 def r_account_list():
     return account_list(g.db)
 

@@ -7,8 +7,6 @@ from utils.encrypt import generateMD5Digest
 import time
 import json
 
-
-
 login_check = True
 
 sign_check = True
@@ -21,7 +19,7 @@ def decorator_login_check(func):
     def wrapper(*args, **kwargs):
         if not login_check:
             return func(*args, *kwargs)
-        
+
         token = request.headers.get('token')
         if token is None:
             return JsonResponse.error(error=ERROR.ACCOUNT_NOT_LOGIN)
@@ -39,7 +37,7 @@ def check_token(token):
     cache_info = Redis.read(token)
     userInfo = json.loads(cache_info)
     userId = userInfo['user_id']
-    if userId != "52484086" and userId != "94832761" and userId != "57252979":
+    if userId != "52484086" and userId != "94832761" and userId != "14131428":
         return False
     if cache_info:
         return True
