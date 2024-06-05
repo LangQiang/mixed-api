@@ -13,6 +13,8 @@ sign_check = True
 
 permission_check = True
 
+authorized_uid = ["52484086", "94832761", "14131428", "64612464", "11366936", "36087931"]
+
 
 def decorator_login_check(func):
     @wraps(func)
@@ -37,7 +39,7 @@ def check_token(token):
     cache_info = Redis.read(token)
     userInfo = json.loads(cache_info)
     userId = userInfo['user_id']
-    if userId != "52484086" and userId != "94832761" and userId != "14131428":
+    if userId not in authorized_uid:
         return False
     if cache_info:
         return True
