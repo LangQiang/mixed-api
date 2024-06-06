@@ -40,4 +40,5 @@ def r_account_list():
 def r_account_update():
     token = request.headers.get('token')
     user_avatar = request.json.get('user_avatar')
-    return account_update(g.db, token,  user_avatar)
+    nick_name = request.json.get('nick_name')
+    return account_update(g.db, token,  user_avatar, nick_name)

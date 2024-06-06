@@ -92,10 +92,15 @@ def account_list(db: sqlite3.Connection):
     return cursor.fetchall()
 
 
-def account_update(db: sqlite3.Connection, token, user_avatar):
+def account_update(db: sqlite3.Connection, token, user_avatar, nick_name):
     userInfo = json.loads(Redis.read(token))
-    db.execute('UPDATE User SET user_avatar=? where user_id=?', (user_avatar, userInfo.get('user_id')))
-    db.commit()
-    userInfo['user_avatar'] = user_avatar
+    if user_avatar is not None:
+        db.execute('UPDATE User SET user_avatar=? where user_id=?', (user_avatar, userInfo.get('user_id')))
+        db.commit()
+        userInfo['user_avatar'] = user_avatar
+    if nick_name is not None:
+        db.execute('UPDATE User SET nick_name=? where user_id=?', (nick_name, userInfo.get('user_id')))
+        db.commit()
+        userInfo['nick_name'] = nick_name
     Redis.write(token, json.dumps(userInfo), 60 * 60 * 24 * 30)
     return JsonResponse.success()
