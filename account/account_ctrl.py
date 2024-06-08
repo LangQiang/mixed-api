@@ -61,8 +61,8 @@ def register(db: sqlite3.Connection, register_info: dict):
         return JsonResponse.error(error=ERROR.ACCOUNT_REGISTER_LIMIT)
 
     db.execute(
-        'INSERT OR REPLACE INTO User(user_id, account_name, pass_word, nick_name) VALUES (?,?,?,?)',
-        (user_id, account_name, pass_word, nick_name))
+        'INSERT OR REPLACE INTO User(user_id, account_name, pass_word, nick_name, permission) VALUES (?,?,?,?)',
+        (user_id, account_name, pass_word, nick_name, 0))
     db.commit()
 
     return JsonResponse.success()
@@ -80,7 +80,8 @@ def login(db: sqlite3.Connection, account_name, pass_word):
     pass_word = ret['pass_word']
     nick_name = ret['nick_name']
     user_avatar = ret['user_avatar']
-    user_info = {'user_id': user_id, 'account_name': account_name, 'pass_word': pass_word, 'nick_name': nick_name, 'user_avatar': user_avatar}
+    permission = ret['permission']
+    user_info = {'user_id': user_id, 'account_name': account_name, 'pass_word': pass_word, 'nick_name': nick_name, 'user_avatar': user_avatar, 'permission': permission}
     print(user_info)
     token = generate_token()
     Redis.write(token, json.dumps(user_info), 60 * 60 * 24 * 30)

@@ -31,6 +31,19 @@ class ERROR(Enum):
         return self._msg
 
 
+class GlobalConstants:
+    PERMISSION_SHOP_K_V = {
+        0: 1,  # 哈西
+        1: 2,  # 乐松
+        2: 4  # 吾悦
+    }
+
+    PERMISSION_ROLE_MASK_OFFSET = 60
+    PERMISSION_ROLE_STRANGER = 0
+    PERMISSION_ROLE_NORMAL = 1
+    PERMISSION_ROLE_SUPER_MANAGER = 7
+
+
 if __name__ == '__main__':
     print(ERROR.ACCOUNT_NOT_LOGIN.code)
     print(ERROR.ACCOUNT_NOT_LOGIN.msg)

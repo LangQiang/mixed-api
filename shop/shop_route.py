@@ -26,4 +26,4 @@ def shop_create_route():
 @decorator_sign_check
 @decorator_login_check
 def shop_list_route():
-    return get_shop_list(g.db)
+    return get_shop_list(g.db, request.headers.get('token'))
