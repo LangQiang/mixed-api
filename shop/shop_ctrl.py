@@ -55,3 +55,9 @@ def get_permission_id_list(permission):
             print(v)
             shop_list.append(v)
     return shop_list
+
+
+def get_shop_list_latest(db: sqlite3.Connection, shop_ids):
+    placeholders = ','.join('?' for _ in shop_ids)
+    cursor = db.execute(f'SELECT * FROM BillLatest WHERE shop_id in ({placeholders})', shop_ids)
+    return cursor.fetchall()

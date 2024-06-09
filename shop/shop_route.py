@@ -27,3 +27,12 @@ def shop_create_route():
 @decorator_login_check
 def shop_list_route():
     return get_shop_list(g.db, request.headers.get('token'))
+
+
+@shop.route('/shop/list/latest', methods=['GET'])
+@decorator_sign_check
+@decorator_login_check
+def shop_list_latest_route():
+    shop_ids = request.args.get('shop_ids').split(',')
+    int_shop_ids = list(map(int, shop_ids))
+    return get_shop_list_latest(g.db, int_shop_ids)

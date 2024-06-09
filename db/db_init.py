@@ -184,6 +184,21 @@ def initdb():
 
     connect_db().commit()
 
+    # 店铺最新数据记录表单
+    connect_db().execute('''CREATE TABLE if not exists BillLatest (
+                                            shop_id INTEGER NOT NULL PRIMARY KEY,
+                                            bill_date VARCHAR(20),
+                                            bill_table_times VARCHAR(100),
+                                            bill_total VARCHAR(100),
+                                            bill_opt_by VARCHAR(100),
+                                            bill_shop_id INTEGER,
+                                            bill_pay_out TEXT,
+                                            bill_bonus INTEGER,
+                                            bill_created_time TimeStamp NOT NULL DEFAULT (DATETIME('now', 'localtime'))
+                                            )''')
+
+    connect_db().commit()
+
 
 def dict_factory(cursor, row):
     d = {}
