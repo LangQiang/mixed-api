@@ -39,7 +39,7 @@ def insertBill(db: sqlite3.Connection, data, table_times_data):
 
     #最新数据记录
     db.execute(
-        'INSERT OR REPLACE INTO BillLatest(bill_date, bill_table_times, bill_total, bill_opt_by,shop_id, bill_pay_out, bill_bonus) VALUES (?,?,?,?,?,?,?)',
+        'INSERT OR REPLACE INTO BillLatest(bill_date, bill_table_times, bill_total, bill_opt_by,bill_shop_id, bill_pay_out, bill_bonus) VALUES (?,?,?,?,?,?,?)',
         table_times_data)
 
     db.commit()

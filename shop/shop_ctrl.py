@@ -58,6 +58,7 @@ def get_permission_id_list(permission):
 
 
 def get_shop_list_latest(db: sqlite3.Connection, shop_ids):
+    db.row_factory = dict_factory
     placeholders = ','.join('?' for _ in shop_ids)
-    cursor = db.execute(f'SELECT * FROM BillLatest WHERE shop_id in ({placeholders})', shop_ids)
+    cursor = db.execute(f'SELECT * FROM BillLatest WHERE bill_shop_id in ({placeholders})', shop_ids)
     return cursor.fetchall()

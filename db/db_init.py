@@ -186,7 +186,7 @@ def initdb():
 
     # 店铺最新数据记录表单
     connect_db().execute('''CREATE TABLE if not exists BillLatest (
-                                            shop_id INTEGER NOT NULL PRIMARY KEY,
+                                            bill_shop_id INTEGER NOT NULL PRIMARY KEY,
                                             bill_date VARCHAR(20),
                                             bill_table_times VARCHAR(100),
                                             bill_total VARCHAR(100),
