@@ -35,7 +35,7 @@ class GlobalConstants:
     PERMISSION_SHOP_K_V = {
         0: 1,  # 哈西
         1: 2,  # 乐松
-        2: 4  # 吾悦
+        3: 4  # 吾悦
     }
 
     PERMISSION_ROLE_MASK_OFFSET = 60

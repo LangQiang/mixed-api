@@ -191,7 +191,6 @@ def initdb():
                                             bill_table_times VARCHAR(100),
                                             bill_total VARCHAR(100),
                                             bill_opt_by VARCHAR(100),
-                                            bill_shop_id INTEGER,
                                             bill_pay_out TEXT,
                                             bill_bonus INTEGER,
                                             bill_created_time TimeStamp NOT NULL DEFAULT (DATETIME('now', 'localtime'))
