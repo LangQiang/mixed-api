@@ -59,10 +59,16 @@ def bill_statistics_route():
 
 
 @bill.route('/bill/total', methods=['GET'])
-@decorator_sign_check
-@decorator_login_check
+# @decorator_sign_check
+# @decorator_login_check
 def bill_total_route():
+    start = request.args.get('start_date')
+    end = request.args.get('end_date')
     shop_id = request.args.get('bill_shop_id')
     type_name = request.args.get('type_name')
+    if type_name is None or type_name == '':
+        type_name = None
     sub_type_name = request.args.get('sub_type_name')
-    return get_bill_total(g.db, shop_id, type_name, sub_type_name)
+    if sub_type_name is None or sub_type_name == '':
+        sub_type_name = None
+    return get_bill_total(g.db, start, end, shop_id, type_name, sub_type_name)

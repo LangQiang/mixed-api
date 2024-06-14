@@ -5,8 +5,8 @@ from urllib.parse import unquote
 
 # YY-mm-dd  range-rule:[]
 def queryBillByDate(db: sqlite3.Connection, start, end, shop_id):
-    real_start = '0000-00-00' if start is None else start
-    real_end = '9999-99-99' if end is None else end
+    real_start = '0000-00-00' if start is None or start == '' else start
+    real_end = '9999-99-99' if end is None or end == '' else end
     print(real_start, real_end)
     db.row_factory = dict_factory
 
@@ -117,11 +117,13 @@ def get_bill_statistics(db: sqlite3.Connection):
             'lastMonthTotalTurnover': lastMonthTotalTurnover, 'currentMonthTotalTurnover': currentMonthTotalTurnover}
 
 
-def get_bill_total(db: sqlite3.Connection, shop_id, type_name, sub_type_name):
+def get_bill_total(db: sqlite3.Connection, start, end, shop_id, type_name, sub_type_name):
+    real_start = '0000-00-00' if start is None or start == '' else start
+    real_end = '9999-99-99' if end is None or end == '' else end
     tableName = 'BillTableTimes' if type_name is not None else 'BillRecord'
     sumParam = type_name if type_name is not None else 'bill_amount'
     db.row_factory = dict_factory
-    selection = '' if shop_id is None or shop_id == '' else ('where bill_shop_id=' + shop_id + ((" and bill_type='" + unquote(sub_type_name) + "'") if sub_type_name is not None else ''))
+    selection = '' if shop_id is None or shop_id == '' else ('where bill_date >= ' + real_start + ' and bill_date <= ' + real_end + ' and bill_shop_id=' + shop_id + ((" and bill_type='" + unquote(sub_type_name) + "'") if sub_type_name is not None else ''))
     print('select sum(' + sumParam + ') as total from ' + tableName + ' ' + selection)
     cursor = db.execute('select sum(' + sumParam + ') as total from ' + tableName + ' ' + selection)
     total = cursor.fetchone()['total']
