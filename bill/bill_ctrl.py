@@ -123,7 +123,7 @@ def get_bill_total(db: sqlite3.Connection, start, end, shop_id, type_name, sub_t
     tableName = 'BillTableTimes' if type_name is not None else 'BillRecord'
     sumParam = type_name if type_name is not None else 'bill_amount'
     db.row_factory = dict_factory
-    selection = '' if shop_id is None or shop_id == '' else ('where bill_date >= ' + real_start + ' and bill_date <= ' + real_end + ' and bill_shop_id=' + shop_id + ((" and bill_type='" + unquote(sub_type_name) + "'") if sub_type_name is not None else ''))
+    selection = '' if shop_id is None or shop_id == '' else ('where bill_date >= "' + real_start + '" and bill_date <= "' + real_end + '" and bill_shop_id=' + shop_id + ((" and bill_type='" + unquote(sub_type_name) + "'") if sub_type_name is not None else ''))
     print('select sum(' + sumParam + ') as total from ' + tableName + ' ' + selection)
     cursor = db.execute('select sum(' + sumParam + ') as total from ' + tableName + ' ' + selection)
     total = cursor.fetchone()['total']
