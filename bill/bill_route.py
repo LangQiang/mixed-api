@@ -59,8 +59,8 @@ def bill_statistics_route():
 
 
 @bill.route('/bill/total', methods=['GET'])
-# @decorator_sign_check
-# @decorator_login_check
+@decorator_sign_check
+@decorator_login_check
 def bill_total_route():
     start = request.args.get('start_date')
     end = request.args.get('end_date')

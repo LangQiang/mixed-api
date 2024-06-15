@@ -1,4 +1,4 @@
-from flask import g
+from flask import g, request
 
 from db.db_init import *
 from flask_wrapper import JsonFlask
@@ -15,6 +15,8 @@ from appconfig.config_route import config
 from skin.skin_route import skin
 from product.product_route import product
 
+from utils.logger import MyLog
+
 app = JsonFlask(__name__)
 app.register_blueprint(bill)
 app.register_blueprint(sensitive)
@@ -30,8 +32,14 @@ app.register_blueprint(product)
 
 @app.before_request
 def before_request():
-    print('before_request')
+    MyLog.log_flask_request(request, g)
     g.db = connect_db()
+
+
+@app.after_request
+def log_response(response):
+    MyLog.log_flask_response(response, g)
+    return response
 
 
 @app.teardown_request
@@ -43,7 +51,9 @@ def teardown_request(exception):
 
 @app.errorhandler(Exception)
 def error_handler(e):
-    return JsonResponse.error(str(Exception(e).args))
+    e_str = str(Exception(e).args)
+    MyLog.warning(request.url + e_str)
+    return JsonResponse.error(e_str)
 
 
 @app.route('/')

@@ -1,3 +1,5 @@
 MixedDB.db
 venv
 .gitignore
+err.log
+log.log

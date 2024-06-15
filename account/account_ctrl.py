@@ -5,7 +5,7 @@ from utils.redis_utils import Redis
 import random
 import uuid
 import json
-
+from utils.logger import MyLog
 
 def multi_nick_name(db: sqlite3.Connection, nick_name):
     cursor = db.execute('SELECT nick_name FROM User WHERE nick_name=?', (nick_name,))
@@ -100,6 +100,7 @@ def account_update(db: sqlite3.Connection, token, user_avatar, nick_name):
         db.commit()
         userInfo['user_avatar'] = user_avatar
     if nick_name is not None:
+        MyLog.info('UPDATE UserInfo(%s): nick_name[%s -> %s]' % (userInfo.get('user_id'), userInfo['nick_name'], nick_name))
         db.execute('UPDATE User SET nick_name=? where user_id=?', (nick_name, userInfo.get('user_id')))
         db.commit()
         userInfo['nick_name'] = nick_name
